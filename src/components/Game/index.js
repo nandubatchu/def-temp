@@ -50,6 +50,8 @@ export default class question extends Component {
         
         return (
             <div>
+                Question ID: {this.state.question.id}
+                <br/>
                 {this.state.question.q}
                 <ul>
                     <li id="a" onClick={this.select.bind(this)} >{this.state.question.a}</li>

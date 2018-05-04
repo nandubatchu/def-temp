@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 
 import SignIn from '../SignIn';
 import Game from '../Game';
+import Admin from '../Admin';
 
 import { auth } from '../firebase';
 
@@ -25,7 +26,7 @@ export default class Gameplay extends Component {
     return (
       <section>
         <p>Sandbox</p>
-        {this.state.currentUser ? <Game /> : <SignIn />}
+        {this.state.currentUser ? (this.state.currentUser.phoneNumber === "+919986179372" ? <Admin /> : <Game />) : <SignIn />}
       </section>
     );
   }
