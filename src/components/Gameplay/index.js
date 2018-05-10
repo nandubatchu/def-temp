@@ -6,6 +6,8 @@ import Admin from '../Admin';
 
 import { auth } from '../firebase';
 
+import style from './style';
+
 export default class Gameplay extends Component {
   constructor() {
     super();
@@ -24,10 +26,9 @@ export default class Gameplay extends Component {
   render() {
 
     return (
-      <section>
-        <p>Sandbox</p>
-        {this.state.currentUser ? (this.state.currentUser.phoneNumber === "+919986179372" ? <Admin /> : <Game />) : <SignIn />}
-      </section>
+      <div className={style.page} >
+        {this.state.currentUser ? (this.state.currentUser.phoneNumber === "+919986179372" ? <Game /> : <Game />) : <SignIn />}
+      </div>
     );
   }
 }

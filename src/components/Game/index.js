@@ -1,6 +1,9 @@
 import { h, Component } from 'preact';
 
 import { auth, database } from '../firebase';
+import Timer  from 'easytimer';
+
+import style from './style';
 
 export default class question extends Component {
     constructor(){
@@ -8,6 +11,7 @@ export default class question extends Component {
 
         this.state = {
             answerLock: false,
+            timer: 0,
             question: {
                 id: 0,
                 q: "Question placeholder",
@@ -25,11 +29,19 @@ export default class question extends Component {
             this.setState({ question: snapshot.val(), answerLock: false });
             console.log(this.state.question);
         });
+
+        var timer = new Timer();
+        timer.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 5}});
+        timer.addEventListener('secondTenthsUpdated', (e) => {
+            let newTime = timer.getTimeValues().toString(['seconds', 'secondTenths']);
+            this.setState({timer: newTime});
+        });
+        timer.addEventListener('targetAchieved', (e) => {
+            this.setState({answerLock: true});
+        });  
     }
 
-    logout() {
-        auth.signOut()
-    }   
+     
 
     select(e) {
         if (this.state.answerLock) { return }
@@ -51,16 +63,17 @@ export default class question extends Component {
         return (
             <div>
                 Question ID: {this.state.question.id}
-                <br/>
-                {this.state.question.q}
-                <ul>
-                    <li id="a" onClick={this.select.bind(this)} >{this.state.question.a}</li>
-                    <li id="b" onClick={this.select.bind(this)} >{this.state.question.b}</li>
-                    <li id="c" onClick={this.select.bind(this)} >{this.state.question.c}</li>
-                </ul>
-                
-                <br/>
-                <button onClick={this.logout.bind(this)} >Logout</button>
+                <div className={style.timer} >
+                    {this.state.timer}
+                </div>
+                <div className={style.question} >
+                    {this.state.question.q}
+                </div>
+                <div className={style.options} >
+                    <button className={style.option} id="a" onClick={this.select.bind(this)} disabled={this.state.answerLock} >{this.state.question.a}</button>
+                    <button className={style.option} id="b" onClick={this.select.bind(this)} disabled={this.state.answerLock} >{this.state.question.b}</button>
+                    <button className={style.option} id="c" onClick={this.select.bind(this)} disabled={this.state.answerLock} >{this.state.question.c}</button>
+                </div>
             </div>
         
         );

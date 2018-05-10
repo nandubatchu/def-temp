@@ -1,0 +1,19 @@
+.timer {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px;
+}
+
+.question {
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+}
+
+.option {
+    background-color: bisque;
+    width: 100%;
+    margin: 2px;
+    height: 50px;
+}

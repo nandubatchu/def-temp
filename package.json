@@ -27,6 +27,7 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
+    "easytimer": "^1.1.1",
     "firebase": "^4.13.1",
     "history": "^4.7.2",
     "preact": "^8.2.6",
