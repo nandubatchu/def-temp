@@ -7,12 +7,16 @@ admin.initializeApp(functions.config().firebase);
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 exports.question = functions.https.onRequest((request, response) => {
-    var question = admin.database().ref("question");
+    const question = admin.database().ref("question");
+    const nextQuestion = admin.database().ref("nextQuestion");
 
-    question.child('q').set("Server triggered question?");
-    // question.once('value').then((dataSnapshot)=>{
-    //     return response.send(JSON.stringify(dataSnapshot.val()));
-    // }).catch(err => console.log(err));
-
+    nextQuestion.once('value', (dataSnapshot)=>{
+        for (i=0; i<dataSnapshot.val().length; i++) {
+            let q = question.set(dataSnapshot.val()[i]);
+            setTimeout(()=>{ console.log("Q", i)} , 5000);
+        }
+        nextQuestion.remove()
+    })
+    
     response.send(200);
 });
