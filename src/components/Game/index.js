@@ -14,7 +14,7 @@ export default class question extends Component {
             timer: 0,
             question: {
                 id: 0,
-                q: "Question placeholder",
+                q: "Wait for the question!",
                 a: "Option A",
                 b: "Option B",
                 c: "Option C"
@@ -28,17 +28,19 @@ export default class question extends Component {
         question.on('value', snapshot => {
             this.setState({ question: snapshot.val(), answerLock: false });
             console.log(this.state.question);
+
+            var timer = new Timer();
+            timer.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 5}});
+            timer.addEventListener('secondTenthsUpdated', (e) => {
+                let newTime = timer.getTimeValues().toString(['seconds', 'secondTenths']);
+                this.setState({timer: newTime});
+            });
+            timer.addEventListener('targetAchieved', (e) => {
+                this.setState({answerLock: true});
+            });  
         });
 
-        var timer = new Timer();
-        timer.start({precision: 'secondTenths', countdown: true, startValues: {seconds: 5}});
-        timer.addEventListener('secondTenthsUpdated', (e) => {
-            let newTime = timer.getTimeValues().toString(['seconds', 'secondTenths']);
-            this.setState({timer: newTime});
-        });
-        timer.addEventListener('targetAchieved', (e) => {
-            this.setState({answerLock: true});
-        });  
+        
     }
 
      
